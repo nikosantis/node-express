@@ -1,6 +1,8 @@
-const expres = require('express')
-const routes = expres.Router()
+const express = require('express')
+const routes = express.Router()
 const productMocks = require('../utils/mocks/products')
+
+const products = productMocks
 
 routes.get('/', function(req, res) {
   res.render('products', { products })

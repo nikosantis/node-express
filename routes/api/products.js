@@ -1,12 +1,16 @@
 const express = require('express')
 const router = express.Router()
-const productMocks = require('../../utils/mocks/products')
+const ProductService = require('../../services/products')
+
+const productService = new ProductService()
 
 router.get('/', function(req, res) {
-  const { query } = req.query
+  const { tags } = req.query
+
+  const products = productService.getProducts({ tags })
 
   res.status(200).json({
-    data: productMocks,
+    data: products,
     message: 'products listed'
   })
 })
@@ -14,32 +18,42 @@ router.get('/', function(req, res) {
 router.get('/:productId', function(req, res) {
   const { productId } = req.params
 
+  const product = productService.getProduct({ productId })
+
   res.status(200).json({
-    data: productMocks[0],
+    data: product,
     message: 'product retrieved'
   })
 })
 
 router.post('/', function(req, res) {
+  const { body: product } = req
+  const product = productService.createProduct({ product })
 
   res.status(201).json({
-    data: productMocks[0],
+    data: product,
     message: 'product created'
   })
 })
 
 router.put('/:productId', function(req, res) {
+  const { productId } = req.params
+  const { body: product } = req
+  const product = productService.updateProduct({ productId, product })
 
   res.status(200).json({
-    data: productMocks,
+    data: product,
     message: 'product updated'
   })
 })
 
-router.delete('/', function(req, res) {
+router.delete('/:productId', function(req, res) {
+  const { productId } = req.params
+  const { body: product } = req
+  const product = productService.updateProduct({ productId, product })
 
   res.status(200).json({
-    data: productMocks[0],
+    data: product,
     message: 'product deleted'
   })
 })
