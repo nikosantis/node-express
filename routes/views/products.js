@@ -1,6 +1,6 @@
 const express = require('express')
 const routes = express.Router()
-const ProductService = require('../services/products')
+const ProductService = require('../../services/products')
 
 const productService = new ProductService()
 

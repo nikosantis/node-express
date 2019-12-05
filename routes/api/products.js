@@ -6,8 +6,12 @@ const productService = new ProductService()
 
 router.get('/', async function(req, res, next) {
   const { tags } = req.query
+
+  console.log(`req: ${JSON.stringify(req.query)}`)
+
   try {
     const getProducts = await productService.getProducts({ tags })
+
     res.status(200).json({
       data: getProducts,
       message: 'products listed'
@@ -19,6 +23,8 @@ router.get('/', async function(req, res, next) {
 
 router.get('/:productId', async function(req, res, next) {
   const { productId } = req.params
+
+  console.log(`req: ${req.params}`)
 
   try {
     const getProduct = await productService.getProduct({ productId })
@@ -35,11 +41,13 @@ router.get('/:productId', async function(req, res, next) {
 router.post('/', async function(req, res, next) {
   const { body: product } = req
 
+  console.log(`req: ${req.body}`)
+
   try {
-    const createProduct = await productService.createProduct({ product })
+    const createdProduct = await productService.createProduct({ product })
 
     res.status(201).json({
-      data: createProduct,
+      data: createdProduct,
       message: 'product created'
     })
   } catch (error) {
@@ -51,11 +59,13 @@ router.put('/:productId', async function(req, res, next) {
   const { productId } = req.params
   const { body: product } = req
 
+  console.log(`req: ${req.body} ${req.params}`)
+
   try {
-    const updateProduct = await productService.updateProduct({ productId, product })
+    const updatedProduct = await productService.updateProduct({ productId, product })
 
     res.status(200).json({
-      data: updateProduct,
+      data: updatedProduct,
       message: 'product updated'
     })
   } catch (error) {
@@ -68,10 +78,10 @@ router.patch('/:productId', async function(req, res, next) {
   const { body: product } = req
 
   try {
-    const updateProduct = await productService.partialUpdateProduct({ productId, product })
+    const updatedProduct = await productService.partialUpdateProduct({ productId, product })
 
     res.status(200).json({
-      data: updateProduct,
+      data: updatedProduct,
       message: 'product updated'
     })
   } catch (error) {
@@ -83,11 +93,13 @@ router.delete('/:productId', async function(req, res, next) {
   const { productId } = req.params
   const { body: product } = req
 
+  console.log(`req: ${req.params}`)
+
   try {
-    const deleteProduct = await productService.deleteProduct({ productId, product })
+    const deletedProduct = await productService.deleteProduct({ productId, product })
 
     res.status(200).json({
-      data: deleteProduct,
+      data: deletedProduct,
       message: 'product deleted'
     })
   } catch (error) {
