@@ -21,6 +21,10 @@ class ProductsService {
     return Promise.resolve(productMocks[0])
   }
 
+  partialUpdateProduct({ productId, product }) {
+    return Promise.resolve(productMocks[0])
+  }
+
   deleteProduct({ productId, product }) {
     return Promise.resolve(productMocks[0])
   }
