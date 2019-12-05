@@ -8,14 +8,14 @@ block hero
         h2.subtitle Find the best productos a the best price
 
 block content
-  .container(style="flex: 1; padding: 50px 0;")
+  .container(style='flex: 1; padding: 50px 0;')
     .columns.is-multiline
         each product in products
           .column.is-one-quarter
             .card
               .card-image
-                figure.image(style="height: 190px;")
-                  img(src=product.image style="height: 100%; object-fit: cover;")
+                figure.image(style='height: 190px;')
+                  img(src=product.image style='height: 100%; object-fit: cover;')
               .card-content
                 h1.title= product.name
                 .button.is-fullwidth.is-primary
