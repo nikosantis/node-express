@@ -2,6 +2,11 @@ const express = require('express')
 const router = express.Router()
 const ProductService = require('../../services/products')
 
+const Joi = require('@hapi/joi')
+const validationHandler = require('../../utils/middlewares/validationHandler')
+
+const { productIdSchema, productTagSchema, createProductSchema, updateProductSchema } = require('../../utils/schemas/products')
+
 const productService = new ProductService()
 
 router.get('/', async function(req, res, next) {
@@ -38,10 +43,8 @@ router.get('/:productId', async function(req, res, next) {
   }
 })
 
-router.post('/', async function(req, res, next) {
+router.post('/', validationHandler(createProductSchema), async function(req, res, next) {
   const { body: product } = req
-
-  console.log(`req: ${JSON.stringify(req.body)}`)
 
   try {
     const createdProduct = await productService.createProduct({ product })
@@ -55,7 +58,11 @@ router.post('/', async function(req, res, next) {
   }
 })
 
-router.put('/:productId', async function(req, res, next) {
+router.put(
+  '/:productId',
+  validationHandler(Joi.object({ productId: productIdSchema }), 'params'),
+  validationHandler(updateProductSchema),
+  async function(req, res, next) {
   const { productId } = req.params
   const { body: product } = req
 
