@@ -73,22 +73,6 @@ router.put('/:productId', async function(req, res, next) {
   }
 })
 
-router.patch('/:productId', async function(req, res, next) {
-  const { productId } = req.params
-  const { body: product } = req
-
-  try {
-    const updatedProduct = await productService.partialUpdateProduct({ productId, product })
-
-    res.status(200).json({
-      data: updatedProduct,
-      message: 'product updated'
-    })
-  } catch (error) {
-    next(error)
-  }
-})
-
 router.delete('/:productId', async function(req, res, next) {
   const { productId } = req.params
   const { body: product } = req
