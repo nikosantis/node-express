@@ -1,4 +1,5 @@
 const express = require('express')
+const slash = require('express-slash')
 const path = require('path')
 const bodyParser = require('body-parser')
 const Boom = require('@hapi/boom')
@@ -19,6 +20,8 @@ const isRequestAjaxOrApi = require('./utils/isRequestAjaxOrApi')
 const app = express()
 
 // middlewares
+app.enable('strict routing')
+
 app.use(bodyParser.json())
 
 // statics files
@@ -27,7 +30,6 @@ app.use('/static', serveStatic(path.join(__dirname, 'public')))
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug')
-
 
 // routes
 app.use('/products', productsRouter)
