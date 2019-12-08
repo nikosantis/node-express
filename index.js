@@ -1,11 +1,11 @@
 const express = require('express')
-const slash = require('express-slash')
 const path = require('path')
 const bodyParser = require('body-parser')
 const Boom = require('@hapi/boom')
 const serveStatic = require('serve-static')
 const productsRouter = require('./routes/views/products')
 const productsApiRouter = require('./routes/api/products')
+const authApiRouter = require('./routes/api/auth')
 
 const {
   logErrors,
@@ -20,8 +20,6 @@ const isRequestAjaxOrApi = require('./utils/isRequestAjaxOrApi')
 const app = express()
 
 // middlewares
-app.enable('strict routing')
-
 app.use(bodyParser.json())
 
 // statics files
@@ -34,6 +32,7 @@ app.set('view engine', 'pug')
 // routes
 app.use('/products', productsRouter)
 app.use('/api/products', productsApiRouter)
+app.use('/api/auth', authApiRouter)
 
 // redirect /
 app.get('/', function(req, res) {
