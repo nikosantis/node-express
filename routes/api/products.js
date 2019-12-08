@@ -24,8 +24,6 @@ function productsApi(app) {
   router.get('/', async function(req, res, next) {
     const { tags } = req.query
 
-    console.log(`req: ${JSON.stringify(req.query)}`)
-
     try {
       const getProducts = await productService.getProducts({ tags })
 
