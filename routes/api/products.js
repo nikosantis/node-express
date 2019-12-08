@@ -1,6 +1,5 @@
 const express = require('express')
 const passport = require('passport')
-const router = express.Router()
 const ProductService = require('../../services/products')
 
 const Joi = require('@hapi/joi')
@@ -16,99 +15,105 @@ const {
 // JWT strategy
 require('../../utils/auth/strategies/jwt')
 
-const productService = new ProductService()
+function productsApi(app) {
+  const router = express.Router()
+  app.use('/api/products', router)
 
-router.get('/', async function(req, res, next) {
-  const { tags } = req.query
+  const productService = new ProductService()
 
-  console.log(`req: ${JSON.stringify(req.query)}`)
+  router.get('/', async function(req, res, next) {
+    const { tags } = req.query
 
-  try {
-    const getProducts = await productService.getProducts({ tags })
+    console.log(`req: ${JSON.stringify(req.query)}`)
 
-    res.status(200).json({
-      data: getProducts,
-      message: 'products listed'
-    })
-  } catch (error) {
-    next(error)
-  }
-})
+    try {
+      const getProducts = await productService.getProducts({ tags })
 
-router.get('/:productId', async function(req, res, next) {
-  const { productId } = req.params
+      res.status(200).json({
+        data: getProducts,
+        message: 'products listed'
+      })
+    } catch (error) {
+      next(error)
+    }
+  })
 
-  console.log(`req: ${JSON.stringify(req.params)}`)
+  router.get('/:productId', async function(req, res, next) {
+    const { productId } = req.params
 
-  try {
-    const getProduct = await productService.getProduct({ productId })
+    console.log(`req: ${JSON.stringify(req.params)}`)
 
-    res.status(200).json({
-      data: getProduct,
-      message: 'product retrieved'
-    })
-  } catch (error) {
-    next(error)
-  }
-})
+    try {
+      const getProduct = await productService.getProduct({ productId })
 
-router.post('/', validationHandler(createProductSchema), async function(req, res, next) {
-  const { body: product } = req
+      res.status(200).json({
+        data: getProduct,
+        message: 'product retrieved'
+      })
+    } catch (error) {
+      next(error)
+    }
+  })
 
-  try {
-    const createdProduct = await productService.createProduct({ product })
+  router.post('/', validationHandler(createProductSchema), async function(req, res, next) {
+    const { body: product } = req
 
-    res.status(201).json({
-      data: createdProduct,
-      message: 'product created'
-    })
-  } catch (error) {
-    next(error)
-  }
-})
+    try {
+      const createdProduct = await productService.createProduct({ product })
 
-router.put(
-  '/:productId',
-  passport.authenticate('jwt', { session: false }),
-  validationHandler(Joi.object({ productId: productIdSchema }), 'params'),
-  validationHandler(updateProductSchema),
-  async function(req, res, next) {
-  const { productId } = req.params
-  const { body: product } = req
+      res.status(201).json({
+        data: createdProduct,
+        message: 'product created'
+      })
+    } catch (error) {
+      next(error)
+    }
+  })
 
-  console.log(`req: ${JSON.stringify(req.body)} ${JSON.stringify(req.params)}`)
+  router.put(
+    '/:productId',
+    passport.authenticate('jwt', { session: false }),
+    validationHandler(Joi.object({ productId: productIdSchema }), 'params'),
+    validationHandler(updateProductSchema),
+    async function(req, res, next) {
+    const { productId } = req.params
+    const { body: product } = req
 
-  try {
-    const updatedProduct = await productService.updateProduct({ productId, product })
+    console.log(`req: ${JSON.stringify(req.body)} ${JSON.stringify(req.params)}`)
 
-    res.status(200).json({
-      data: updatedProduct,
-      message: 'product updated'
-    })
-  } catch (error) {
-    next(error)
-  }
-})
+    try {
+      const updatedProduct = await productService.updateProduct({ productId, product })
 
-router.delete(
-  '/:productId',
-  passport.authenticate('jwt', { session: false }),
-  async function(req, res, next) {
-  const { productId } = req.params
-  const { body: product } = req
+      res.status(200).json({
+        data: updatedProduct,
+        message: 'product updated'
+      })
+    } catch (error) {
+      next(error)
+    }
+  })
 
-  console.log(`req: ${JSON.stringify(req.params)}`)
+  router.delete(
+    '/:productId',
+    passport.authenticate('jwt', { session: false }),
+    async function(req, res, next) {
+    const { productId } = req.params
+    const { body: product } = req
 
-  try {
-    const deletedProduct = await productService.deleteProduct({ productId, product })
+    console.log(`req: ${JSON.stringify(req.params)}`)
 
-    res.status(200).json({
-      data: deletedProduct,
-      message: 'product deleted'
-    })
-  } catch (error) {
-    next(error)
-  }
-})
+    try {
+      const deletedProduct = await productService.deleteProduct({ productId, product })
 
-module.exports = router
+      res.status(200).json({
+        data: deletedProduct,
+        message: 'product deleted'
+      })
+    } catch (error) {
+      next(error)
+    }
+  })
+
+}
+
+module.exports = productsApi
