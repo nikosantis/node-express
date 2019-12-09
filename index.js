@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 const path = require('path')
 const bodyParser = require('body-parser')
 const Boom = require('@hapi/boom')
@@ -31,6 +32,8 @@ app.use('/static', serveStatic(path.join(__dirname, 'public')))
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug')
+
+app.use(cors())
 
 // routes
 app.use('/products', productsRouter)
