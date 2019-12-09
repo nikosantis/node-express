@@ -2,6 +2,7 @@ const express = require('express')
 const path = require('path')
 const bodyParser = require('body-parser')
 const Boom = require('@hapi/boom')
+const debug = require('debug')('app:server')
 const serveStatic = require('serve-static')
 const productsRouter = require('./routes/views/products')
 const productsApiRouter = require('./routes/api/products')
@@ -31,7 +32,7 @@ app.set('view engine', 'pug')
 
 // routes
 app.use('/products', productsRouter)
-productsRouter(app)
+productsApiRouter(app)
 app.use('/api/auth', authApiRouter)
 
 // redirect /
@@ -59,5 +60,5 @@ app.use(errorHandler)
 
 // server
 const server = app.listen(8000, function() {
-  console.log(`Listening http://localhost:${server.address().port}`)
+  debug(`Listening http://localhost:${server.address().port}`)
 })

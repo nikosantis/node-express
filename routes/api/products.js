@@ -39,8 +39,6 @@ function productsApi(app) {
   router.get('/:productId', async function(req, res, next) {
     const { productId } = req.params
 
-    console.log(`req: ${JSON.stringify(req.params)}`)
-
     try {
       const getProduct = await productService.getProduct({ productId })
 
@@ -77,8 +75,6 @@ function productsApi(app) {
     const { productId } = req.params
     const { body: product } = req
 
-    console.log(`req: ${JSON.stringify(req.body)} ${JSON.stringify(req.params)}`)
-
     try {
       const updatedProduct = await productService.updateProduct({ productId, product })
 
@@ -97,8 +93,6 @@ function productsApi(app) {
     async function(req, res, next) {
     const { productId } = req.params
     const { body: product } = req
-
-    console.log(`req: ${JSON.stringify(req.params)}`)
 
     try {
       const deletedProduct = await productService.deleteProduct({ productId, product })
