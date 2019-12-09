@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index",
+    "start": "NODE_ENV=production node index",
+    "build": "cd public/assets && cleancss -o main.min.css main.css",
     "dev": "nodemon index",
     "dev:inspect": "nodemon --inspect index",
     "dev:debug": "DEBUG=express:*,app:* npm run dev",
@@ -36,6 +37,7 @@
   },
   "devDependencies": {
     "chalk": "^3.0.0",
+    "clean-css-cli": "^4.3.0",
     "mocha": "^6.2.2",
     "nodemon": "^2.0.1",
     "nyc": "^14.1.1",
